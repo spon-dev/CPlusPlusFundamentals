@@ -4,16 +4,9 @@ using namespace std;
 int main()
 {
 
-
-
-
     int a, b, temp;
 
-
     cin >> a >> b;
-
-
-
 
     if (a < b)
 
@@ -25,35 +18,18 @@ int main()
 
         b = temp;
 
-
-
-
     }
-
-
 
     while (b > 0)
     {
-
 
         temp = b;
         b = a % b;
         a = temp;
 
-
     }
 
-
-
-
-
-
-
-
-
     cout << a << endl;
-
-
 
     return 0;
 }

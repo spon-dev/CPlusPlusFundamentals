@@ -1,12 +1,16 @@
-﻿#include <iostream>
+#include <iostream>
 using namespace std;
 
 int main()
 {
 
-    int a, b, temp;
+    int a, b,temp;
 
+    
     cin >> a >> b;
+
+
+/*
 
     if (a < b)
 
@@ -20,16 +24,38 @@ int main()
 
     }
 
-    while (b > 0)
-    {
+*/
 
+ /*
+
+    while (b != 0)
+     {
+                
+                
         temp = b;
         b = a % b;
         a = temp;
 
+
+     }
+
+
+*/
+
+    while (b != 0)
+    {
+
+        temp = a % b;
+
+        a = b;
+
+        b = temp;
+
     }
 
     cout << a << endl;
+
+
 
     return 0;
 }

@@ -1,61 +1,34 @@
 #include <iostream>
+#include <cmath>
 using namespace std;
-
-bool isPositive(double a)
-{
-
-	return a > 0;
-
-}
 
 int main()
 {
 	double a, b, c;
 	cin >> a >> b >> c;
 
-
-	if (a == 0 || b == 0 || c == 0)
+	double D = pow(b,2) - 4 * a * c;
+	double x1 = (-b + sqrt(D)) / (2 * a);
+	double x2 = (-b - sqrt(D)) / (2 * a);
+	if (D < 0)
 	{
-		cout << "+";
 
-		return 0;
+		cout << "no roots" << endl;
 	}
 
-	/*
-	bool isPositiveA = a > 0;
-
-	bool isPositiveB = b > 0;
-
-	
-
-	bool output = (isPositiveA == isPositiveB);
-
-	isPositiveB = c > 0;
-
-	output = (output == isPositiveB);
-
-	*/
-
-	bool output = (isPositive(a) == isPositive(b));
-
-	output = (output == isPositive(c));
-
-
-	if (output == true)
+	else if (D == 0)
 	{
-
-		cout << "+";
-
+		cout << x1 << endl;
 	}
 
 	else
 	{
-		cout << "-";
+
+		cout << x1 << " " << x2 << endl;
+
 	}
 
-
 	return 0;
-
 }
 
 

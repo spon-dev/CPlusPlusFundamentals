@@ -9,7 +9,6 @@ int main()
     
     cin >> a >> b;
 
-
 /*
 
     if (a < b)
@@ -54,8 +53,6 @@ int main()
     }
 
     cout << a << endl;
-
-
 
     return 0;
 }

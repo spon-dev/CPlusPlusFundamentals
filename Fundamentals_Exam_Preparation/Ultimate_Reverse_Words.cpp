@@ -1,91 +1,122 @@
-//The solution is not complete. It gives incorrect output. I will fix it when I have time to debug it.
-
 #include <iostream>
-#include <sstream>
-#include <vector>
 #include <string>
-#include <cctype>
-#include <algorithm>
-#include <map>
+#include <vector>
+#include <list>
+#include <sstream>
 
 using namespace std;
 
-bool is_punctuation(char ch) {
-    return ispunct(static_cast<unsigned char>(ch));
-}
+int main()
+{
 
-string process_word(const string& word) {
-    string result;
-    for (char ch : word) {
-        if (!is_punctuation(ch)) {
-            result += ch;
-        }
-    }
-    return result;
-}
+    //  03. Ultimate Reverse words (it's over 9000)
 
-int main() {
-    vector<string> lines;
-    string line;
+    vector<string> vecStr;
+    vector<string> vecSymb;
 
-    while (getline(cin, line)) {
-        if (line == "end") {
+    vector<int> vecOrder;
+
+    string finalSent, originalSent;
+
+    while (true)
+    {
+        string strInput;
+        getline(cin, strInput);
+
+        if (strInput == "end")
+        {
             break;
         }
-        lines.push_back(line);
+        else if (originalSent.empty())
+        {
+            originalSent += strInput;
+        }
+        else
+        {
+            originalSent += string(" ") + strInput;
+        }
     }
 
-    for (const string& line : lines) {
-        vector<string> words;
-        stringstream ss(line);
-        string word;
+    //cout << originalSent << endl; // za test
+    //cout << originalSent.length() << endl; // za test
 
-        while (ss >> word) {
-            words.push_back(word);
+    istringstream istrSent(originalSent);
+    string strWord;
+
+    while (istrSent >> strWord)
+    {
+        string strPunc;
+
+        for (int idx = strWord.length() - 1; idx >= 0; idx--)
+        {
+            char charLastSymb = strWord[idx];
+            bool isNotPunctuation = charLastSymb >= 'A' && charLastSymb <= 'Z' || charLastSymb >= 'a' && charLastSymb <= 'z'
+                || charLastSymb == '+' || charLastSymb == '-';
+            if (!isNotPunctuation)
+            {
+                strWord.erase(idx, 1);
+                strPunc += charLastSymb;
+                continue;
+            }
+            break;
         }
+        vecStr.push_back(strWord);
+        vecSymb.push_back(strPunc);
+    }
 
-        map<size_t, vector<string>> size_groups;
+    vecOrder.reserve(vecStr.size());
+    vecOrder.assign(vecStr.size(), -1);
 
-        for (const string& w : words) {
-            size_groups[process_word(w).size()].push_back(w);
-        }
-
-        for (auto& group : size_groups) {
-            reverse(group.second.begin(), group.second.end());
-        }
-
-        map<size_t, size_t> group_indices;
-
-        for (size_t k = 0; k < words.size(); ++k) {
-            const string& w = words[k];
-            size_t word_size = process_word(w).size();
-
-            if (size_groups.count(word_size) && group_indices[word_size] < size_groups[word_size].size()) {
-                string result_word = size_groups[word_size][group_indices[word_size]];
-                string result_word_punctuated;
-
-                for (size_t i = 0, j = 0; i < w.size(); ++i) {
-                    if (!is_punctuation(w[i])) {
-                        char new_char = (k == 0 || (i > 0 && w[i - 1] == ' ' && words[k - 1].back() == '.')) ? toupper(result_word[j]) : tolower(result_word[j]);
-                        result_word_punctuated += new_char;
-                        j++;
-                    }
-                    else {
-                        result_word_punctuated += w[i];
-                    }
+    for (int idx1 = 0; idx1 < vecStr.size(); idx1++)
+    {
+        bool flagMatch = false;
+        for (int idx2 = vecStr.size() - 1; idx2 > idx1; idx2--)
+        {
+            if (vecStr[idx1].length() == vecStr[idx2].length() && vecOrder[idx2] == -1)
+            {
+                if (vecStr[idx1] != "-" && vecStr[idx2] != "-")
+                {
+                    vecOrder[idx1] = idx2;
+                    vecOrder[idx2] = idx1;
+                    flagMatch = true;
+                    break;
                 }
 
-                cout << result_word_punctuated;
-
-                group_indices[word_size]++;
-
-                if (k != words.size() - 1) {
-                    cout << ' ';
-                }
             }
         }
-        cout << endl;
+        if (!flagMatch && vecOrder[idx1] == -1)
+        {
+            vecOrder[idx1] = idx1;
+        }
     }
 
+
+    for (size_t idx = 0; idx < vecOrder.size(); idx++)
+    {
+        if (idx != 0)
+        {
+            bool checkCapital = vecStr[vecOrder[idx]][0] >= 'A' && vecStr[vecOrder[idx]][0] <= 'Z';
+            if (checkCapital)
+            {
+                vecStr[vecOrder[idx]][0] += 32;
+            }
+
+            finalSent += " ";
+
+        }
+        else
+        {
+            bool checkCapital = vecStr[vecOrder[idx]][0] >= 'a' && vecStr[vecOrder[idx]][0] <= 'z';
+            if (checkCapital)
+            {
+                vecStr[vecOrder[idx]][0] -= 32;
+            }
+        }
+        finalSent += vecStr[vecOrder[idx]];
+        finalSent += vecSymb[idx];
+    }
+
+    cout << finalSent << endl;
+    
     return 0;
 }

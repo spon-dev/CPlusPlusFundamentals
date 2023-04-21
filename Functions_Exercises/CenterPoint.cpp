@@ -1,20 +1,29 @@
-// CenterPoint.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <cmath>
+using namespace std;
+
+void closerToCenter(double x1, double y1, double x2, double y2)
+{
+	double distance_A = sqrt(pow(x1, 2) + pow(y1, 2));
+	double distance_B = sqrt(pow(x2, 2) + pow(y2, 2));
+
+	if (distance_A <= distance_B)
+	{
+		cout << "(" << x1 << ", " << y1 << ")" << endl;
+	}
+	else
+	{
+		cout << "(" << x2 << ", " << y2 << ")" << endl;
+	}
+}
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	double x1, y1, x2, y2;
+	cin >> x1 >> y1 >> x2 >> y2;
+	closerToCenter(x1, y1, x2, y2);
+
+	return 0;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
